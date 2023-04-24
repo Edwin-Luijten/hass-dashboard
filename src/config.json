@@ -1,0 +1,49 @@
+{
+  "browser_mod": {
+    "id": "panel"
+  },
+  "clock": {
+    "date": "sendor.date",
+    "time": "sensor.time"
+  },
+  "persons": [
+    "person.edwin",
+    "person.ilona"
+  ],
+  "main": {
+    "vacuum": "vacuum.roborock_s5e_4855_robot_cleaner",
+    "weather": "weather.home",
+    "light": "light.living_room",
+    "climate": {
+      "thermostat": "climate.woonkamer",
+      "humidity": "sensor.air_purifier_humidity",
+      "air_quality": "sensor.air_purifier_indoor_allergen_index",
+      "pm2_5": "sensor.air_purifier_pm2_5"
+    },
+    "media": "media_player.living_room",
+    "car": {
+      "lock": "lock.q_door_lock",
+      "range": "sensor.q_ev_range",
+      "maxRange": "sensor.q_target_range_of_charge_ac",
+      "batteryLevel": "sensor.q_ev_battery_level",
+      "charging": "binary_sensor.q_ev_battery_charge",
+      "location": "device_tracker.q_location",
+      "defrost": "binary_sensor.q_defrost",
+      "airco": "binary_sensor.q_air_conditioner"
+    }
+  },
+  "energy": {
+    "grid": {
+      "export": {
+        "total": "sensor.p1_meter_3c39e72bbb2a_total_power_export",
+        "t1": "sensor.p1_meter_3c39e72bbb2a_total_power_export_t1",
+        "t2": "sensor.p1_meter_3c39e72bbb2a_total_power_export_t2"
+      },
+      "import": {
+        "total": "sensor.p1_meter_3c39e72bbb2a_total_power_import",
+        "t1": "sensor.p1_meter_3c39e72bbb2a_total_power_import_t1",
+        "t2": "sensor.p1_meter_3c39e72bbb2a_total_power_import_t2"
+      }
+    }
+  }
+}

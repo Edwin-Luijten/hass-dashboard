@@ -1,0 +1,97 @@
+name: "Q's Dashboard"
+image: "europe-west4-docker.pkg.dev/ironpichi-894d3/home-assistant/q-dashboard"
+description: "An opinionated dashboard"
+version: "1.0.0"
+slug: "hass-dashboard"
+init: false
+startup: services
+services:
+  - mysql:want
+  - mqtt:want
+ports:
+  80/tcp: null
+ports_description:
+  80/tcp: Web UI (Not required for Ingress)
+ingress: true
+ingress_port: 8099
+ingress_stream: true
+homeassistant_api: true
+options:
+  rest_api_url: "http://supervisor/core/api"
+  websocket_api_url: "ws://supervisor/core/websocket"
+  entity_config:
+    main:
+      vacuum:
+      weather:
+      light:
+      climate:
+        thermostat:
+        humidity:
+        air_quality:
+        pm2_5:
+      media:
+      car:
+        lock:
+        range:
+        maxRange:
+        batteryLevel:
+        charging:
+        location:
+        defrost:
+        airco:
+    persons:
+    clock:
+      date:
+      time:
+    browser_mod:
+      id:
+    energy:
+      grid:
+        export:
+          total:
+          t1:
+          t2:
+        import:
+          total:
+          t1:
+          t2:
+  schema:
+    main:
+      vacuum: string
+      weather: string
+      light: string
+      climate:
+        thermostat: string
+        humidity: string
+        air_quality: string
+        pm2_5: string
+      media: string
+      car:
+        lock: string
+        range: string
+        maxRange: string
+        batteryLevel: string
+        charging: string
+        location: string
+        defrost: string
+        airco: string
+    persons:
+      - string
+    clock:
+      date: string
+      time: string
+    energy:
+      grid:
+        export:
+          total: string
+          t1: string
+          t2: string
+        import:
+          total: string
+          t1: string
+          t2: string
+    browser_mod:
+      id: string
+arch:
+  - aarch64
+  - amd64
