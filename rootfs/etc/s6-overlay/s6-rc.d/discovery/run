@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community Add-on: Q Dashboard
+# Send q_dashboard discovery information to Home Assistant
+# ==============================================================================
+declare payload
+
+# Wait for Q Dashboard to be available
+bashio::net.wait_for 3000 localhost 1800
+
+# Wait some more
+sleep 10
+
+# Prepare discovery payload
+payload=$(\
+    bashio::var.json \
+        host "$(hostname)" \
+        port "^3000" \
+)
+
+if bashio::discovery "q_dashboard" "${payload}" > /dev/null; then
+    bashio::log.info "Successfully send discovery information to Home Assistant."
+else
+    bashio::log.error "Discovery message to Home Assistant failed!"
+fi

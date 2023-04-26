@@ -1,5 +1,5 @@
 name: "Q's Dashboard"
-image: "europe-west4-docker.pkg.dev/ironpichi-894d3/home-assistant/q-dashboard"
+image: "q-dashboard"
 description: "An opinionated dashboard"
 version: "1.0.0"
 slug: "hass-dashboard"
@@ -55,7 +55,10 @@ options:
           total:
           t1:
           t2:
-  schema:
+schema:
+  rest_api_url: string
+  websocket_api_url: string
+  entity_config:
     main:
       vacuum: string
       weather: string
