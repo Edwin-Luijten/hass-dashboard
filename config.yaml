@@ -16,80 +16,9 @@ options:
   rest_api_url: "http://supervisor/core/api"
   websocket_api_url: "ws://supervisor/core/websocket"
   entity_config:
-    main:
-      vacuum:
-      weather:
-      light:
-      climate:
-        thermostat:
-        humidity:
-        air_quality:
-        pm2_5:
-      media:
-      car:
-        lock:
-        range:
-        maxRange:
-        batteryLevel:
-        charging:
-        location:
-        defrost:
-        airco:
-    persons:
-    clock:
-      date:
-      time:
-    browser_mod:
-      id:
-    energy:
-      grid:
-        export:
-          total:
-          t1:
-          t2:
-        import:
-          total:
-          t1:
-          t2:
 schema:
-  rest_api_url: str
-  websocket_api_url: str
-  entity_config:
-    main:
-      vacuum: str
-      weather: str
-      light: str
-      climate:
-        thermostat: str
-        humidity: str
-        air_quality: str
-        pm2_5: str
-      media: str
-      car:
-        lock: str
-        range: str
-        maxRange: str
-        batteryLevel: str
-        charging: str
-        location: str
-        defrost: str
-        airco: str
-    persons:
-      - str
-    clock:
-      date: str
-      time: str
-    energy:
-      grid:
-        export:
-          total: str
-          t1: str
-          t2: str
-        import:
-          total: str
-          t1: str
-          t2: str
-    browser_mod:
-      id: str
+  rest_api_url: "str"
+  websocket_api_url: "str"
+  entity_config: "str?"
 arch:
   - amd64
