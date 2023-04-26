@@ -1,13 +1,9 @@
 name: "Q's Dashboard"
-image: "q-dashboard"
 description: "An opinionated dashboard"
 version: "1.0.0"
 slug: "hass-dashboard"
 init: false
 startup: services
-services:
-  - mysql:want
-  - mqtt:want
 ports:
   80/tcp: null
 ports_description:
@@ -56,45 +52,44 @@ options:
           t1:
           t2:
 schema:
-  rest_api_url: string
-  websocket_api_url: string
+  rest_api_url: str
+  websocket_api_url: str
   entity_config:
     main:
-      vacuum: string
-      weather: string
-      light: string
+      vacuum: str
+      weather: str
+      light: str
       climate:
-        thermostat: string
-        humidity: string
-        air_quality: string
-        pm2_5: string
-      media: string
+        thermostat: str
+        humidity: str
+        air_quality: str
+        pm2_5: str
+      media: str
       car:
-        lock: string
-        range: string
-        maxRange: string
-        batteryLevel: string
-        charging: string
-        location: string
-        defrost: string
-        airco: string
+        lock: str
+        range: str
+        maxRange: str
+        batteryLevel: str
+        charging: str
+        location: str
+        defrost: str
+        airco: str
     persons:
-      - string
+      - str
     clock:
-      date: string
-      time: string
+      date: str
+      time: str
     energy:
       grid:
         export:
-          total: string
-          t1: string
-          t2: string
+          total: str
+          t1: str
+          t2: str
         import:
-          total: string
-          t1: string
-          t2: string
+          total: str
+          t1: str
+          t2: str
     browser_mod:
-      id: string
+      id: str
 arch:
-  - aarch64
   - amd64
