@@ -11,6 +11,8 @@ ports_description:
 ingress: true
 ingress_port: 8099
 ingress_stream: true
+discovery:
+  - q_assistant
 homeassistant_api: true
 options:
   rest_api_url: "http://supervisor/core/api"
