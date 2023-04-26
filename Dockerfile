@@ -16,13 +16,8 @@ RUN npm install --no-audit --no-fund --no-update-notifier
 
 COPY ./ ./
 
-RUN npm run build && npm run build:server
+RUN npm run build
 
 RUN mv ./build /var/www/html
 
 RUN rm -rf /tmp
-
-HEALTHCHECK --start-period=10m \
-    CMD curl --fail http://127.0.0.1:46836 || exit 1
-
-CMD [ "nginx","-g","error_log /dev/stdout debug;" ]
