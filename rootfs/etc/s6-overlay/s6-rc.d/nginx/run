@@ -3,9 +3,5 @@
 # Home Assistant Community Add-on: Q Dashboard
 # Runs the Nginx daemon
 # ==============================================================================
-
-# Wait for Q Dashboard to be available
-bashio::net.wait_for 44920
-
 bashio::log.info "Starting NGinx..."
 exec nginx
