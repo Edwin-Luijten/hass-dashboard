@@ -8,9 +8,8 @@ startup: services
 ports:
   80/tcp: null
 ports_description:
-  80/tcp: Web UI (Not required for Ingress)
+  80/tcp: Web UI
 ingress: true
-ingress_stream: true
 homeassistant_api: true
 options:
   rest_api_url: "http://supervisor/core/api"
