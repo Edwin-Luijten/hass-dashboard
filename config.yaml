@@ -1,7 +1,6 @@
 name: "Q's Dashboard"
 description: "An opinionated dashboard"
 version: "1.0.0"
-image: "q-dashboard"
 slug: "hass-dashboard"
 init: false
 startup: services
