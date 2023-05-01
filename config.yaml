@@ -1,7 +1,7 @@
 name: "Q's Dashboard"
 description: "An opinionated dashboard"
 version: "1.0.0"
-slug: "hass-dashboard"
+slug: "q-dashboard"
 init: false
 startup: services
 ports:
