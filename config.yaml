@@ -10,14 +10,23 @@ ports:
 ports_description:
   80/tcp: Web UI
 ingress: true
+ingress_stream: true
 homeassistant_api: true
+map:
+  - ssl
 options:
+  ssl: true
+  certfile: fullchain.pem
+  keyfile: privkey.pem
   rest_api_url: "http://supervisor/core/api"
   websocket_api_url: "ws://supervisor/core/websocket"
   entity_config:
 schema:
-  rest_api_url: "str"
-  websocket_api_url: "str"
-  entity_config: "str?"
+  ssl: bool
+  certfile: str
+  keyfile: str
+  rest_api_url: str
+  websocket_api_url: str
+  entity_config: str?
 arch:
   - amd64
