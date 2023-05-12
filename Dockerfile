@@ -1,23 +1,20 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:13.2.2
-FROM $BUILD_FROM
+FROM node:latest AS build
 
-COPY rootfs /
+COPY ./package.json /app/package.json
+COPY ./package-lock.json /app/package-lock.json
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+WORKDIR /app
 
-RUN apk add --no-cache nginx=1.22.1-r0 nodejs=18.14.2-r0 npm=9.1.2-r0
+RUN npm install
 
-WORKDIR /tmp
-
-COPY package.json /tmp
-COPY package-lock.json /tmp
-
-RUN npm install --no-audit --no-fund --no-update-notifier
-
-COPY ./ ./
+COPY ./ /app
 
 RUN npm run build
 
-RUN mv ./build /var/www/html
+FROM nginx:latest
 
-RUN rm -rf /tmp
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

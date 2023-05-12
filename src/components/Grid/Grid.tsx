@@ -6,10 +6,17 @@ import { useCallback, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { useDoubleTap } from 'use-double-tap';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { useHomeAssistant } from '../../hooks/useHomeAssistant';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import Chart from 'react-apexcharts';
 
+dayjs.extend(isBetween);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Europe/Amsterdam');
 export type GridProps = {
     export: {
         total: string;
@@ -24,7 +31,7 @@ export type GridProps = {
 }
 
 type Stat = {
-    start: number | null;
+    start: number;
     end: number | null;
     max: number | null;
     mean: number | null;
@@ -63,7 +70,11 @@ const chartOptions: ApexCharts.ApexOptions = {
         labels: {
             // format: 'HH'
         },
-        categories: [],
+        categories: [
+            '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00',
+            '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00',
+            '22:00', '23:00'
+        ],
     },
     plotOptions: {
         bar: {
@@ -90,51 +101,71 @@ export function Grid(props: GridProps) {
     const [isDialogOpen, setDialogToOpen] = useState(false);
     const [series, setSeries] = useState<ApexAxisChartSeries | ApexNonAxisChartSeries | undefined>();
 
-    const getStats = useCallback((ids: Array<string>) => {
-        console.log('fetching stats for', ids);
-
-        const now = dayjs();
-        let st = now.subtract(6, 'h');
-
-        for (let i = 0; i < 12; i++) {
-            st = st.add(1, 'h');
-            chartOptions.xaxis?.categories.push(st.format('YYYY-MM-DD HH:00:00'));
-        }
-
-        console.log('range', chartOptions.xaxis?.categories);
-
+    const getStats = useCallback((config: {
+        import: { t1: string, t2: string },
+        export: { t1: string, t2: string }
+    }) => {
+        console.log('fetching stats for', (dayjs().startOf('day')).format('YYYY-MM-DDTHH:mm:ss.000Z'));
         sendMessage<GridStats>({
             type: 'recorder/statistics_during_period',
             period: 'hour',
-            start_time: (dayjs().subtract(12, 'h')).toISOString(),
-            end_time: (dayjs().add(6, 'h')).toISOString(),
-            statistic_ids: ids,
+            start_time: (dayjs().startOf('day')).format('YYYY-MM-DDTHH:mm:ss.000[Z]'),
+            end_time: (dayjs().set('hour', 23)).format('YYYY-MM-DDTHH:mm:ss.000[Z]'),
+            statistic_ids: [config.import.t1, config.import.t2, config.export.t1, config.export.t2],
             types: ['sum'],
             units: {
                 energy: 'kWh',
                 volume: 'm³',
             }
         }).then((d) => {
-            const s = [];
-            for (const id in d) {
-                const da: Array<number> = Array(chartOptions.xaxis?.categories?.length).fill(0);
-                d[id].forEach((r: Stat) => {
-                    const t = dayjs(r.start);
-                    const k = t.format('YYYY-MM-DD HH:00:00');
-                    const i = chartOptions.xaxis?.categories?.indexOf(k);
+            console.log(d);
 
-                    if (i !== -1) {
-                        da[i] = id.includes('export') ? -(r.sum / 1000) : (r.sum / 1000);
-                    }
-                    // da.push(id.includes('export') ? -(r.sum / 1000) : (r.sum / 1000));
-                });
 
-                s.push({name: id.includes('export') ? 'Export' : 'Import', data: da});
-            }
+            let recordsImport: Array<Array<number>> = (new Array()).fill(d[config.import.t1].length);
+            let recordsExport: Array<Array<number>> = (new Array()).fill(d[config.import.t1].length);
 
-            console.log('series', s);
-            setSeries(s);
-        })
+            const series: ApexAxisChartSeries = [];
+
+            d[config.import.t1].forEach((stat, i) => {
+                const t = dayjs(stat.start);
+                if (t.isBetween(t.subtract(1, 'd').set('hour', 23), dayjs().set('hour', 7))) {
+                    recordsImport[i] = [stat.start, stat.sum / 100];
+                }
+            });
+            d[config.import.t2].forEach((stat, i) => {
+                const t = dayjs(stat.start);
+                if (t.isBetween(dayjs().set('hour', 7), dayjs().set('hour', 23))) {
+                    recordsImport[i] = [stat.start, stat.sum / 100];
+                }
+            });
+            d[config.export.t1].forEach((stat, i) => {
+                const t = dayjs(stat.start);
+                if (t.isBetween(t.subtract(1, 'd').set('hour', 23), dayjs().set('hour', 7))) {
+                    recordsExport[i] = [stat.start, -(stat.sum / 100)];
+                }
+            });
+            d[config.export.t2].forEach((stat, i) => {
+                const t = dayjs(stat.start);
+                if (t.isBetween(dayjs().set('hour', 7), dayjs().set('hour', 23))) {
+                    recordsExport[i] = [stat.start, -(stat.sum / 100)];
+                }
+            });
+
+            console.log(recordsImport);
+            console.log(recordsExport);
+            series.push({
+                name: 'Import',
+                data: recordsImport,
+            });
+
+            series.push({
+                name: 'Export',
+                data: recordsExport,
+            });
+
+            setSeries(series);
+
+        });
     }, [sendMessage, setSeries]);
 
     const handleClose = () => setDialogToOpen(false);
@@ -146,7 +177,10 @@ export function Grid(props: GridProps) {
     const tap = useDoubleTap(openDialog, 300, {});
 
     useEffectOnce(() => {
-        getStats([props.import.t1, props.export.t1]);
+        getStats({
+            import: {t1: props.import.t1, t2: props.import.t2},
+            export: {t1: props.export.t1, t2: props.export.t2}
+        });
     });
 
     return (

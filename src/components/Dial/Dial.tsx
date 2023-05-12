@@ -78,7 +78,7 @@ export function Dial(props: KnobProps) {
             ctx.stroke();
         }
         ctx.restore();
-    }, [currentValue]);
+    }, [currentValue, steps]);
 
     const setDialPosition = useCallback(() => {
         if (!knobRef.current || !handleRef.current) return;
@@ -110,7 +110,7 @@ export function Dial(props: KnobProps) {
             setCurrentValue(roundHalf(map(target.current, 0, 360, 0, steps)));
             setDialPosition();
         }
-    }, [setDialPosition, setCurrentValue]);
+    }, [setDialPosition, setCurrentValue, steps]);
 
     const map = (value: number, low1: number, high1: number, low2: number, high2: number) => {
         return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
@@ -139,7 +139,7 @@ export function Dial(props: KnobProps) {
             setCurrentValue(roundHalf(map(target.current, 0, 360, 0, steps)));
             setDialPosition();
         }
-    }, [setCurrentValue, setDialPosition])
+    }, [setCurrentValue, setDialPosition, steps])
 
     const onRelease = useCallback(() => {
         props.onChange(currentValue);
