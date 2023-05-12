@@ -38,6 +38,7 @@ export const MediaPlayer = (props: MediaPlayerProps) => {
 
     const mediaPlayer = useRecoilValue<HassEntity | null>(entityState(props.player));
     const [paused, setPaused] = useState(false);
+    const [volume, setVolume] = useState<number>(0);
     const containerRef = useRef(null);
     const prevImage = useRef<string | null>(null);
     const [openBrowser, setBrowserToOpen] = useState(false);
@@ -71,6 +72,12 @@ export const MediaPlayer = (props: MediaPlayerProps) => {
             entity_id: mediaPlayer?.entity_id,
         }).then(() => setPaused(!!paused));
     }, [mediaPlayer?.entity_id, paused, callService, setPaused]);
+
+    const onSetVolume = useCallback((volume: number) => {
+        callService('media_player', 'volume_set', {volume_level: volume}, {
+            entity_id: mediaPlayer?.entity_id,
+        }).then(() => setVolume(volume));
+    }, [mediaPlayer?.entity_id, setVolume, callService, setVolume]);
 
     const openMediaBrowser = useCallback(() => {
         setBrowserToOpen(true);
@@ -106,9 +113,11 @@ export const MediaPlayer = (props: MediaPlayerProps) => {
                                 <Slider
                                     aria-label="Volume"
                                     defaultValue={mediaPlayer?.attributes.volume_level}
+                                    onChange={(_, value) => onSetVolume(value as number)}
                                     min={0}
                                     max={1}
                                     step={0.1}
+                                    value={volume}
                                     sx={{
                                         color: '#fff',
                                         '& .MuiSlider-track': {
