@@ -77,7 +77,7 @@ export const MediaPlayer = (props: MediaPlayerProps) => {
         callService('media_player', 'volume_set', {volume_level: volume}, {
             entity_id: mediaPlayer?.entity_id,
         }).then(() => setVolume(volume));
-    }, [mediaPlayer?.entity_id, setVolume, callService, setVolume]);
+    }, [mediaPlayer?.entity_id, callService, setVolume]);
 
     const openMediaBrowser = useCallback(() => {
         setBrowserToOpen(true);

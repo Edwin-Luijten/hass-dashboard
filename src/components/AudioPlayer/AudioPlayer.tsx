@@ -16,9 +16,13 @@ export function AudioPlayer(props: AudioPlayerProps) {
     const audioRef = useRef<HTMLAudioElement>(new Audio());
 
     audioRef.current.onloadedmetadata = () => {
-        audioRef.current.play();
+        try {
+            audioRef.current.play();
 
-        setPlaying(true);
+            setPlaying(true);
+        } catch (e: any) {
+            alert(e.message);
+        }
     };
 
     useEffect(() => {

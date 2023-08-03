@@ -9,6 +9,7 @@ import { DashboardSharp } from '@mui/icons-material';
 
 export type HeaderProps = {
     date: string;
+    setDrawerOpen: (open: boolean) => void;
 }
 
 export function Header(props: HeaderProps) {
@@ -23,6 +24,7 @@ export function Header(props: HeaderProps) {
                     color="inherit"
                     aria-label="menu"
                     sx={{mr: 2}}
+                    onClick={() => props.setDrawerOpen(true)}
                 >
                     <MenuIcon/>
                 </IconButton>

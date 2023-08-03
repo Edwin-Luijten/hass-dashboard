@@ -17,6 +17,7 @@ import { BrowserMod } from './components/BrowserMod/BrowserMod';
 import { EnergyPage } from './pages/EnergyPage';
 import { Root } from './pages/Root';
 import { HomeAssistantProvider } from './providers/HomeAssistantProvider';
+import { LogsPage } from './pages/LogsPage';
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: '/energy',
                 element: <EnergyPage/>,
+            },
+            {
+                path: '/logs',
+                element: <LogsPage/>,
             }
         ]
     },

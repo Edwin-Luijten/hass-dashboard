@@ -17,6 +17,7 @@ dayjs.extend(isBetween);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Europe/Amsterdam');
+
 export type GridProps = {
     export: {
         total: string;
