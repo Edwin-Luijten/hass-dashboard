@@ -4,6 +4,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom';
+import { InitialInteraction } from './components/InitialInteraction/InitialInteraction';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
 
@@ -53,6 +54,7 @@ root.render(
                 token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4MmE3ZTBmNTJkMjA0ZTNkYWFkYTc2ZjIxYTc0YjgyOSIsImlhdCI6MTY3ODA4OTgzMSwiZXhwIjoxOTkzNDQ5ODMxfQ.adUXpWNYZfl84Ze1qAWu4lP9JkA-ZpDlNgYaHP-jVlA">
                 <RouterProvider router={router}/>
                 <BrowserMod/>
+                <InitialInteraction/>
             </HomeAssistantProvider>
         </RecoilRoot>
     </StrictMode>

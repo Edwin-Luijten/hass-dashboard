@@ -1,4 +1,4 @@
-import { useRef, UIEvent } from "react";
+import { useRef, UIEvent } from 'react';
 
 const useHorizontalScroll = (callback: { (e: any): void; (e: UIEvent<HTMLElement, globalThis.UIEvent>): void; }) => {
     const positionRef = useRef(0);

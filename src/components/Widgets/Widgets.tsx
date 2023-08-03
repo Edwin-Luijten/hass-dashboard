@@ -35,13 +35,13 @@ export function Widgets({children}: WidgetsProps) {
                 timeline?.current?.fromTo(widget as TweenTarget, {
                     scale: 1,
                     opacity: 1,
-                    webkitFilter: 'blur(0px)',
+                    filter: 'blur(0px)',
                 }, {
                     scale: 0.75,
                     opacity: 1,
                     duration: 1,
                     left: 10 * i,
-                    webkitFilter: 'blur(3px)',
+                    filter: 'blur(3px)',
                 })
             });
         }, sliderRef);

@@ -13,6 +13,7 @@ export function BrowserMod() {
     const [track, setTrack] = useState<{ title: string; src: string } | undefined>(undefined);
 
     const onClose = useCallback(() => {
+        console.debug('onClose');
         setCommand(null);
         setDialogToOpen(false);
     }, [setCommand, setDialogToOpen]);
@@ -25,11 +26,11 @@ export function BrowserMod() {
             if (command.media_type.startsWith('audio')) {
                 setTrack({
                     title: '',
-                    src: command?.media_content_id?.replace('http://homeassistant.local:8123', 'https://ironpichi.com')
+                    src: command?.media_content_id?.replace('http://homeassistant.local:8123', 'https://ironpichi.com') ?? '',
                 });
             }
         }
-    }, [command, setCommand, setDialogToOpen, setTrack, setBrowserModCommand]);
+    }, [command, setDialogToOpen, setTrack, setBrowserModCommand]);
 
     return (
         <Dialog open={openDialog} onClose={onClose} style={{height: 200}} subTitle="Announcement">

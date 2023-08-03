@@ -2,6 +2,11 @@ import { atom, selectorFamily } from 'recoil';
 import { HassEntities, HassEntity } from 'home-assistant-js-websocket';
 import { BrowserModCommand } from '../components/BrowserMod/types';
 
+const initialInteraction = atom<boolean>({
+   key: 'initial-interaction',
+    default: false,
+});
+
 const browserModCommand = atom<BrowserModCommand | null>({
     key: 'browser-mod-command',
     default: null,
@@ -32,6 +37,7 @@ const entityStateArray = selectorFamily({
 });
 
 export {
+    initialInteraction,
     browserModCommand,
     entities,
     entityState,

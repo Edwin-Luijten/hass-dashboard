@@ -36,8 +36,8 @@ export function LogsPage() {
 
     return (
         <Box>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableContainer component={Paper} sx={{overflow: 'hidden'}}>
+                <Table sx={{ minWidth: 650 }} stickyHeader aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Level</TableCell>
@@ -47,8 +47,8 @@ export function LogsPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {logs.map((row) => (
-                            <TableRow>
+                        {logs.map((row, i) => (
+                            <TableRow key={`${row.timestamp}-${i}`}>
                                 <TableCell component="th" scope="row">{row.level}</TableCell>
                                 <TableCell align="right">{row.name}</TableCell>
                                 <TableCell align="right">{row.message.join(' ')}</TableCell>
